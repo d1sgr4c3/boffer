@@ -31,8 +31,7 @@ ifconfig lo 127.0.0.1
 route add -net 127.0.0.0 netmask 255.255.255.0 lo
 ifconfig eth0 192.168.10.0
 route add -net 192.168.10.0 netmask 255.255.255.0 eth0
-echo "this is a sample flag" >> /flag
-chmod 600 flag
+chmod 600 flag.txt
 cd /exp
 setsid /bin/cttyhack setuidgid 1000 /bin/sh
  
