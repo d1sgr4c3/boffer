@@ -1,0 +1,43 @@
+#!/bin/sh
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs none /dev
+# kcov
+mount -t debugfs none /sys/kernel/debug
+/sbin/mdev -s
+mkdir -p /dev/pts
+mount -vt devpts -o gid=4,mode=620 none /dev/pts
+cat /proc/kallsyms > /tmp/kallsyms
+echo 1 > /proc/sys/kernel/kptr_restrict
+echo 0 > /proc/sys/kernel/dmesg_restrict
+
+#dpkg -i /deb/gcc-6-base_6.0.1-0ubuntu1_amd64.deb
+#dpkg --force-depends -i /deb/libgcc1_6.0.1-0ubuntu1_amd64.deb
+#dpkg -i /deb/libc6_2.19-0ubuntu6_amd64.deb
+#dpkg -i /deb/libcap2_2.25-1.2_amd64.deb
+#dpkg -i /deb/libcap2-bin_2.25-1.2_amd64.deb
+
+# chmod 777 /dev/csaw
+#setcap cap_net_admin+ep /exp/exp
+#setcap cap_net_raw,cap_net_admin=eip /exp/exp
+#setcap cap_net_raw,cap_net_admin=eip /exp/exp-original
+#setcap cap_net_raw,cap_net_admin=eip /exp/exp-kcov
+
+insmod /vuln.ko
+chmod 666 /dev/vuln
+
+sysctl -w kernel.printk="7 4 1 3"
+ifconfig lo 127.0.0.1
+route add -net 127.0.0.0 netmask 255.255.255.0 lo
+ifconfig eth0 192.168.10.0
+route add -net 192.168.10.0 netmask 255.255.255.0 eth0
+echo "this is a sample flag" >> /flag
+chmod 600 flag
+cd /exp
+setsid /bin/cttyhack setuidgid 1000 /bin/sh
+ 
+echo 'sh end!\n'
+umount /proc
+umount /sys
+
+poweroff -d 0  -f
