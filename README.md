@@ -2,6 +2,8 @@
 
 A stand for practicing CFHjack in the Linux kernel
 
+<p align="center"><img src="boffer.gif"/></p>
+
 ## Purpose
 
 The purpose of this project is to provide a safe and controlled environment for learning about
