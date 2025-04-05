@@ -46,7 +46,7 @@ y
 y
 ```
 
-Then, in the second:
+Then, in the second one:
 
 ```
 gdb vmlinux
@@ -59,13 +59,12 @@ Return to the VM (1st terminal):
 
 ```
 ./smap
-
 ```
 
 And here we are! Watch the kernel buffer overflow!
 
 ```
-──────────────────────[ DISASM / x86-64 / set emulate on ]───────────────────────
+────────────────────────[ DISASM / x86-64 / set emulate on ]───────────────────────
 
  ► 0xffffffffc0000057    ret                                <0xffffffff81784532>
     ↓
@@ -73,7 +72,7 @@ And here we are! Watch the kernel buffer overflow!
    0xffffffff81784537    ret
 ```
 
-For example, here you can see the _stakpivoting_ technique. Simply press `c` in __gdb__ to achieve root.
+For example, here you can see the __stack pivoting__ technique. Simply press `c` in __gdb__ to achieve root.
 
 ```
 /exp $ id
